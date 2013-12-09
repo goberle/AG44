@@ -1,4 +1,5 @@
 from collections import defaultdict
+import argparse
 import networkx as nx
 import re
 
@@ -7,8 +8,8 @@ config = {
 	'B':    [0, 2.40, 'blue'],
 	'R':    [0, 1.80, 'red'],
 	'N':    [0, 1.20, 'black'],
-	'KL':   [0, 1.0, 'grey'],
-	'SURF': [0, 6.00, 'grey'],
+	'KL':   [0, 1.0, 'purple'],
+	'SURF': [0, 6.00, 'orange'],
 	'TPH':  [240, 1.20, 'grey'],
 	'TC':	[120, 1.80, 'grey'],
 	'TSD':	[60, 1.80, 'grey'],
@@ -17,13 +18,28 @@ config = {
 	'BUS':	[2400, 1800, 'yellow']
 }
 
-def drawGraph(G):
+def drawGraph(G, sp, rp):
+	for p in rp:
+		G.node[p]['style'] = 'filled'
+
+	for i in range(0, len(sp)):
+		try:
+			w = []
+			for e in G.edge[sp[i]][sp[i+1]]:
+				w.append(G.edge[sp[i]][sp[i+1]][e]['weight'])
+			G.edge[sp[i]][sp[i+1]][w.index(min(w))]['penwidth'] = 4
+		except IndexError:
+			break
+
 	nx.write_dot(G, 'graph.gv')
 
 def reachablePoints(G, start, lvl):
 	points = [start]
+	l = ['TPH','TC','TSD','TS','TK','BUS']
+	for line in lvl:
+		l.append(line)
 
-	def dfs(G, start, lvl):
+	def dfs(G, start, l):
 		visited = set()
 		visited.add(start)
 		stack = [(start,iter(G[start]))]
@@ -34,7 +50,7 @@ def reachablePoints(G, start, lvl):
 				if child not in visited:
 					d = G.edge[parent][child]
 					for e in d:
-						if d[e]['type'] in lvl:
+						if d[e]['type'] in l:
 							yield parent,child
 							visited.add(child)
 							stack.append((child,iter(G[child])))
@@ -42,7 +58,7 @@ def reachablePoints(G, start, lvl):
 			except StopIteration:
 				stack.pop()
 
-	for s,t in dfs(G, start, lvl):
+	for s,t in dfs(G, start, l):
 		points.append(t)
 
 	return points
@@ -108,17 +124,28 @@ def parse(dataski):
 	f.close()
 	return G
 
-def main():
-	G = parse('dataski.txt')
+def main(f, s, d, rp, lvl, o):
+	G = parse(f)
 	pred, dist = floydWarshall(G)
-	sp, time = shortestPath(pred, dist, 1, 4)
-	rp = reachablePoints(G, 31, ['V', 'TPH', 'TSD', 'TK', 'TS', 'TC', 'BUS'])
+	sp, time = shortestPath(pred, dist, s, d)
+	rp = reachablePoints(G, rp, lvl)
 
-	print sp
-	print str(time) + 's'
-	print rp
+	print "Shortest Path : " + str(sp) + " in : " + str(time) + 'seconds'
+	print "Reachable Points : " + str(rp)
 
-	drawGraph(G)
+	drawGraph(G, sp, rp)
+
+def init():
+	parser = argparse.ArgumentParser(description='AG44 : SkiResort')
+	parser.add_argument('-f', action="store", default="dataski.txt", help="Data file")
+	parser.add_argument('s', action="store", type=int, help="Source node for shortest path.")
+	parser.add_argument('d', action="store", type=int, help="Destination node for shortest path.")
+	parser.add_argument('rp', action="store", type=int, help="Source node for reachables points")
+	parser.add_argument('lvl', action="store", default=[], help="Level of the skier.")
+	parser.add_argument('-o', action="store", default="graph.gv", help="Output file for the graph")
+	args = parser.parse_args()
+
+	main(args.f, args.s, args.d, args.rp, args.lvl, args.o)
 
 if __name__ == '__main__':
-	main()
+	init()
