@@ -19,10 +19,12 @@ config = {
 }
 
 def drawGraph(G, sp, rp):
+	G.node[rp[0]]['color'] = 'green'
 	for p in rp:
 		G.node[p]['style'] = 'filled'
 
 	for i in range(0, len(sp)):
+		G.node[sp[i]]['fontcolor'] = 'red'
 		try:
 			w = []
 			for e in G.edge[sp[i]][sp[i+1]]:
@@ -133,6 +135,12 @@ def main(f, s, d, rp, lvl, o):
 	print "Shortest Path : " + str(sp) + " in : " + str(time) + 'seconds'
 	print "Reachable Points : " + str(rp)
 
+	#print G.edges(data=True)
+	#for line in G.edges(data=True):
+	#	print line
+	#for line in G.nodes(data=True):
+	#	print line
+
 	drawGraph(G, sp, rp)
 
 def init():
@@ -141,7 +149,7 @@ def init():
 	parser.add_argument('s', action="store", type=int, help="Source node for shortest path.")
 	parser.add_argument('d', action="store", type=int, help="Destination node for shortest path.")
 	parser.add_argument('rp', action="store", type=int, help="Source node for reachables points")
-	parser.add_argument('lvl', action="store", default=[], help="Level of the skier.")
+	parser.add_argument('lvl', action="store", default=[], help="List of routes depending on the level of the skier. (V,B,R,N,KL,SURF)")
 	parser.add_argument('-o', action="store", default="graph.gv", help="Output file for the graph")
 	args = parser.parse_args()
 
