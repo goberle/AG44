@@ -135,12 +135,6 @@ def main(f, s, d, rp, lvl, o):
 	print "Shortest Path : " + str(sp) + " in : " + str(time) + 'seconds'
 	print "Reachable Points : " + str(rp)
 
-	#print G.edges(data=True)
-	#for line in G.edges(data=True):
-	#	print line
-	#for line in G.nodes(data=True):
-	#	print line
-
 	drawGraph(G, sp, rp)
 
 def init():

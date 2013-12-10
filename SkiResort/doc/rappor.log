@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.11)  9 DEC 2013 13:18
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.11.11)  9 DEC 2013 13:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -300,14 +300,14 @@ Here is how much of TeX's memory you used:
  6220 multiletter control sequences out of 15000+600000
  8262 words of font info for 30 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,6n,23p,412b,191s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,23p,406b,191s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2013/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2013/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on rappor.pdf (2 pages, 496980 bytes).
+Output written on rappor.pdf (2 pages, 496961 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  21 compressed objects within 1 object stream
